@@ -140,29 +140,11 @@ As senhas **não** estão no repositório. Na pasta `central_monitoramento/`:
 1. Copie `firebase_secrets_exemplo.h` para **`firebase_secrets.h`** e preencha: URL do Realtime Database, chave de API do Firebase, e-mail e senha do usuário, e a chave da **Groq** (grátis em [console.groq.com](https://console.groq.com)).
 2. Copie `wifi_redes_exemplo.h` para **`wifi_redes.h`** e coloque as suas redes Wi-Fi (2,4 GHz).
 
-Esses dois arquivos já estão no `.gitignore` e **nunca devem ser publicados**.
 
-### 3. Firebase
-
-1. Crie um projeto, ative o **Realtime Database** e a **autenticação por e-mail/senha**.
-2. Crie o usuário que a central vai usar.
-3. Publique regras que deixem esse usuário **ler** `caixas`, `clima`, `chuva` e `alertas` (exemplo em [`docs/firebase-regras-exemplo.json`](docs/firebase-regras-exemplo.json)). Sem a regra de `alertas`, o Serial mostra `Erro Firebase em alertas: unauthorized`.
-4. Os dados precisam ser gravados por outro programa (o projeto do sítio) na estrutura descrita em [`docs/firebase-estrutura.md`](docs/firebase-estrutura.md).
-
-### 4. Palavra de ativação (opcional)
+### 3. Palavra de ativação (opcional)
 
 Por padrão a central é ativada **só pelo botão** (`#define ATIVACAO_POR_VOZ 0` no topo do `.ino`), e assim compila sem nenhuma biblioteca extra.
 
-Para ativar também por voz (dizendo **"central"** e depois **"ativar"**), é preciso um modelo de *keyword spotting* treinado no **Edge Impulse**:
-
-1. Treine o modelo (16 kHz) com as palavras "central" e "ativar" e exporte como **biblioteca Arduino** com o nome `Central_de_Monitoramento_inferencing` (se o nome for outro, ajuste o `#include` em `wake_word.h`).
-2. Instale a biblioteca e troque para `#define ATIVACAO_POR_VOZ 1` no `.ino`.
-
-O modelo do autor **não** está no repositório (foi treinado com a voz dele).
-
-### 5. Grave
-
-Abra `central_monitoramento/central_monitoramento.ino`, escolha a porta e grave. Abra o Monitor Serial em **115200**.
 
 ## Comandos de voz
 
@@ -232,22 +214,17 @@ Pasta [`case-3d/`](case-3d/): `case-central.scad` (fonte, feito no **OpenSCAD**)
 
 Na primeira impressão as presilhas que seguram a matriz ficaram finas e a case ficou apertada: se for imprimir, vale deixar a presilha mais grossa e a case uns 2 cm mais larga.
 
-## Problemas comuns
-
-| Sintoma | Causa provável e solução |
-|---|---|
-| `Sketch too big` / `text section exceeds available space` | Partição errada. Use `16M Flash (3MB APP/9.9MB FATFS)` e Flash Size `16MB` |
-| Display mostra `ERRO MIC` | PSRAM desligada. Ferramentas → PSRAM → `OPI PSRAM` |
-| Monitor Serial vazio | `USB CDC On Boot` não combina com a entrada USB usada (veja a tabela da placa) |
-| Matriz acende só parte, sem som, placa reinicia | Alimentação pelo USB. Use a fonte de 5 V |
-| `Erro Firebase em alertas: unauthorized` | Falta a regra de leitura de `alertas` |
-| Linha `ESP-ROM...` e nada mais | Normal logo após ligar; veja o item do Monitor Serial acima |
 
 ## Projeto parceiro
 
 Esta central só **lê** os dados. Quem mede e grava é o projeto do sítio (ESP32 com sensores de nível, clima, chuva e bateria, mais Telegram e painel web). 
 
 ![Painel web do sítio](fotos/09-painel-web-do-sitio.jpg)
+
+## Agradecimentos
+
+Este projeto foi idealizado, montado, testado e acompanhado por **Ricardo Zuliani**, com apoio do **ChatGPT (OpenAI)** e do **Claude (Anthropic)** no planejamento, organização do código, diagnóstico de problemas, documentação e preparação da publicação. A montagem física, as decisões finais e os testes no local são de responsabilidade do autor do projeto.
+
 
 ## Licença
 

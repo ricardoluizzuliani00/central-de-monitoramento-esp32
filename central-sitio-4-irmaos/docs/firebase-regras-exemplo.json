@@ -1,0 +1,10 @@
+{
+  "rules": {
+    ".write": "auth != null && auth.uid == 'UID_DO_ESP32_DO_SITIO'",
+
+    "caixas":  { ".read": "auth != null" },
+    "clima":   { ".read": "auth != null" },
+    "chuva":   { ".read": "auth != null" },
+    "alertas": { ".read": "auth != null" }
+  }
+}
